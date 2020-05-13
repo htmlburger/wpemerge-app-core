@@ -1,13 +1,13 @@
 <?php
 /**
- * @package   WPEmergeThemeCore
+ * @package   WPEmergeAppCore
  * @author    Atanas Angelov <hi@atanas.dev>
  * @copyright 2017-2020 Atanas Angelov
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GPL-2.0
  * @link      https://wpemerge.com/
  */
 
-namespace WPEmergeThemeCore\Sidebar;
+namespace WPEmergeAppCore\Sidebar;
 
 class Sidebar {
 	/**
@@ -31,7 +31,7 @@ class Sidebar {
 			$post_id = intval( get_option( 'page_for_posts' ) );
 		}
 
-		$post_id = intval( apply_filters( 'wpemerge_theme_core_sidebar_context_post_id', $post_id ) );
+		$post_id = intval( apply_filters( 'wpemerge_app_core_sidebar_context_post_id', $post_id ) );
 
 		return $post_id;
 	}

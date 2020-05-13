@@ -1,16 +1,17 @@
 <?php
 /**
- * @package   WPEmergeThemeCore
+ * @package   WPEmergeAppCore
  * @author    Atanas Angelov <hi@atanas.dev>
  * @copyright 2017-2020 Atanas Angelov
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GPL-2.0
  * @link      https://wpemerge.com/
  */
 
-namespace WPEmergeThemeCore\Assets;
+namespace WPEmergeAppCore\Assets;
 
-use WPEmergeThemeCore\Concerns\JsonFileNotFoundException;
-use WPEmergeThemeCore\Concerns\ReadsJsonTrait;
+use WPEmerge\Helpers\MixedType;
+use WPEmergeAppCore\Concerns\JsonFileNotFoundException;
+use WPEmergeAppCore\Concerns\ReadsJsonTrait;
 
 class Manifest {
 	use ReadsJsonTrait {
@@ -18,10 +19,26 @@ class Manifest {
 	}
 
 	/**
+	 * App root directory.
+	 *
+	 * @var string
+	 */
+	protected $root = '';
+
+	/**
+	 * Constructor.
+	 *
+	 * @param string $root
+	 */
+	public function __construct( $root ) {
+		$this->root = $root;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	protected function getJsonPath() {
-		return get_template_directory() . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'manifest.json';
+		return MixedType::normalizePath( $this->root . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'manifest.json' );
 	}
 
 	/**

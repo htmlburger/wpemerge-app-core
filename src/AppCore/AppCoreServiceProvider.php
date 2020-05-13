@@ -1,13 +1,13 @@
 <?php
 /**
- * @package   WPEmergeThemeCore
+ * @package   WPEmergeAppCore
  * @author    Atanas Angelov <hi@atanas.dev>
  * @copyright 2017-2020 Atanas Angelov
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GPL-2.0
  * @link      https://wpemerge.com/
  */
 
-namespace WPEmergeThemeCore\Theme;
+namespace WPEmergeAppCore\AppCore;
 
 use WPEmerge\ServiceProviders\ServiceProviderInterface;
 
@@ -16,17 +16,17 @@ use WPEmerge\ServiceProviders\ServiceProviderInterface;
  *
  * @codeCoverageIgnore
  */
-class ThemeServiceProvider implements ServiceProviderInterface {
+class AppCoreServiceProvider implements ServiceProviderInterface {
 	/**
 	 * {@inheritDoc}
 	 */
 	public function register( $container ) {
-		$container['wpemerge_theme_core.theme.theme'] = function( $c ) {
-			return new Theme( $c[ WPEMERGE_APPLICATION_KEY ] );
+		$container['wpemerge_app_core.theme.theme'] = function( $c ) {
+			return new AppCore( $c[ WPEMERGE_APPLICATION_KEY ] );
 		};
 
 		$app = $container[ WPEMERGE_APPLICATION_KEY ];
-		$app->alias( 'theme', 'wpemerge_theme_core.theme.theme' );
+		$app->alias( 'core', 'wpemerge_app_core.theme.theme' );
 	}
 
 	/**
