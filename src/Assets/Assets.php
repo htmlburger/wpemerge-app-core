@@ -93,22 +93,22 @@ class Assets {
 	}
 
 	/**
-	 * Get the public URI to the app root.
+	 * Get the public URL to the app root.
 	 *
 	 * @return string
 	 */
-	public function getUri() {
+	public function getUrl() {
 		return $this->url;
 	}
 
 	/**
-	 * Get the public URI to a generated asset based on manifest.json.
+	 * Get the public URL to a generated asset based on manifest.json.
 	 *
 	 * @param string $asset
 	 *
 	 * @return string
 	 */
-	public function getAssetUri( $asset ) {
+	public function getAssetUrl( $asset ) {
 		// Path with unix-style slashes.
 		$path = $this->manifest->get( $asset, '' );
 
@@ -116,7 +116,7 @@ class Assets {
 			return '';
 		}
 
-		return $this->getUri() . '/dist/' . $path;
+		return $this->getUrl() . '/dist/' . $path;
 	}
 
 	/**
@@ -156,8 +156,8 @@ class Assets {
 			return;
 		}
 
-		$favicon_uri = apply_filters( 'wpemerge_app_core_favicon_uri', $this->getAssetUri( 'images/favicon.ico' ) );
+		$favicon_url = apply_filters( 'wpemerge_app_core_favicon_url', $this->getAssetUrl( 'images/favicon.ico' ) );
 
-		echo '<link rel="shortcut icon" href="' . $favicon_uri . '" />' . "\n";
+		echo '<link rel="shortcut icon" href="' . $favicon_url . '" />' . "\n";
 	}
 }
