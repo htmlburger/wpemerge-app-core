@@ -10,8 +10,16 @@
 namespace WPEmergeAppCore\Assets;
 
 use WPEmerge\Helpers\MixedType;
+use WPEmerge\Helpers\Url;
 
 class Assets {
+	/**
+	 * App root URL.
+	 *
+	 * @var string
+	 */
+	protected $url = '';
+
 	/**
 	 * Manifest.
 	 *
@@ -22,9 +30,11 @@ class Assets {
 	/**
 	 * Constructor.
 	 *
+	 * @param string   $url
 	 * @param Manifest $manifest
 	 */
-	public function __construct( Manifest $manifest ) {
+	public function __construct( $url, Manifest $manifest ) {
+		$this->url = Url::removeTrailingSlash( $url );
 		$this->manifest = $manifest;
 	}
 
@@ -83,12 +93,12 @@ class Assets {
 	}
 
 	/**
-	 * Get the public URI to the current theme directory root.
+	 * Get the public URI to the app root.
 	 *
 	 * @return string
 	 */
-	public function getThemeUri() {
-		return get_template_directory_uri();
+	public function getUri() {
+		return $this->url;
 	}
 
 	/**
@@ -106,7 +116,7 @@ class Assets {
 			return '';
 		}
 
-		return $this->getThemeUri() . '/dist/' . $path;
+		return $this->getUri() . '/dist/' . $path;
 	}
 
 	/**

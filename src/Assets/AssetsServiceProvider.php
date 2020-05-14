@@ -22,11 +22,14 @@ class AssetsServiceProvider implements ServiceProviderInterface {
 	 */
 	public function register( $container ) {
 		$container['wpemerge_app_core.assets.manifest'] = function( $c ) {
-			return new Manifest( $c[ WPEMERGE_CONFIG_KEY ]['app_core']['root'] );
+			return new Manifest( $c[ WPEMERGE_CONFIG_KEY ]['app_core']['path'] );
 		};
 
 		$container['wpemerge_app_core.assets.assets'] = function( $container ) {
-			return new Assets( $container['wpemerge_app_core.assets.manifest'] );
+			return new Assets(
+				$container[ WPEMERGE_CONFIG_KEY ]['app_core']['url'],
+				$container['wpemerge_app_core.assets.manifest']
+			);
 		};
 	}
 

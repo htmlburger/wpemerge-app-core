@@ -9,6 +9,7 @@
 
 namespace WPEmergeAppCore\AppCore;
 
+use WPEmerge\ServiceProviders\ExtendsConfigTrait;
 use WPEmerge\ServiceProviders\ServiceProviderInterface;
 
 /**
@@ -17,10 +18,17 @@ use WPEmerge\ServiceProviders\ServiceProviderInterface;
  * @codeCoverageIgnore
  */
 class AppCoreServiceProvider implements ServiceProviderInterface {
+	use ExtendsConfigTrait;
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public function register( $container ) {
+		$this->extendConfig( $container, 'app_core', [
+			'path' => '',
+			'url' => '',
+		] );
+
 		$container['wpemerge_app_core.theme.theme'] = function( $c ) {
 			return new AppCore( $c[ WPEMERGE_APPLICATION_KEY ] );
 		};

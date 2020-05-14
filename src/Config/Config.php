@@ -18,25 +18,25 @@ class Config {
 	}
 
 	/**
-	 * App root directory.
+	 * App root path.
 	 *
 	 * @var string
 	 */
-	protected $root = '';
+	protected $path = '';
 
 	/**
 	 * Constructor.
 	 *
-	 * @param string $root
+	 * @param string $path
 	 */
-	public function __construct( $root ) {
-		$this->root = $root;
+	public function __construct( $path ) {
+		$this->path = $path;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected function getJsonPath() {
-		return MixedType::normalizePath( $this->root . DIRECTORY_SEPARATOR . 'config.json' );
+		return MixedType::normalizePath( $this->path . DIRECTORY_SEPARATOR . 'config.json' );
 	}
 }

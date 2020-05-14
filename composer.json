@@ -1,6 +1,6 @@
 {
   "name": "htmlburger/wpemerge-app-core",
-  "description": "Core tools for the WP Emerge Theme.",
+  "description": "Core tools for the WP Emerge starter theme and plugin.",
   "type": "library",
   "keywords": [],
   "license": "GPL-2.0-only",

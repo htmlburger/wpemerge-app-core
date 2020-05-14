@@ -22,7 +22,7 @@ class ConfigServiceProvider implements ServiceProviderInterface {
 	 */
 	public function register( $container ) {
 		$container['wpemerge_app_core.config.config'] = function( $c ) {
-			return new Config( $c[ WPEMERGE_CONFIG_KEY ]['app_core']['root'] );
+			return new Config( $c[ WPEMERGE_CONFIG_KEY ]['app_core']['path'] );
 		};
 	}
 
