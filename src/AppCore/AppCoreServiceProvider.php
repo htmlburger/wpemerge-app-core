@@ -29,12 +29,12 @@ class AppCoreServiceProvider implements ServiceProviderInterface {
 			'url' => '',
 		] );
 
-		$container['wpemerge_app_core.theme.theme'] = function( $c ) {
+		$container['wpemerge_app_core.app_core.app_core'] = function( $c ) {
 			return new AppCore( $c[ WPEMERGE_APPLICATION_KEY ] );
 		};
 
 		$app = $container[ WPEMERGE_APPLICATION_KEY ];
-		$app->alias( 'core', 'wpemerge_app_core.theme.theme' );
+		$app->alias( 'core', 'wpemerge_app_core.app_core.app_core' );
 	}
 
 	/**
