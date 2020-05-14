@@ -11,14 +11,29 @@ namespace WPEmergeAppCore\Assets;
 
 use WPEmerge\Helpers\MixedType;
 use WPEmerge\Helpers\Url;
+use WPEmergeAppCore\Config\Config;
 
 class Assets {
+	/**
+	 * App root path.
+	 *
+	 * @var string
+	 */
+	protected $path = '';
+
 	/**
 	 * App root URL.
 	 *
 	 * @var string
 	 */
 	protected $url = '';
+
+	/**
+	 * Config.
+	 *
+	 * @var Config
+	 */
+	protected $config = null;
 
 	/**
 	 * Manifest.
@@ -30,11 +45,15 @@ class Assets {
 	/**
 	 * Constructor.
 	 *
+	 * @param string   $path
 	 * @param string   $url
+	 * @param Config   $config
 	 * @param Manifest $manifest
 	 */
-	public function __construct( $url, Manifest $manifest ) {
+	public function __construct( $path, $url, Config $config, Manifest $manifest ) {
+		$this->path = MixedType::removeTrailingSlash( $path );
 		$this->url = Url::removeTrailingSlash( $url );
+		$this->config = $config;
 		$this->manifest = $manifest;
 	}
 
@@ -117,6 +136,54 @@ class Assets {
 		}
 
 		return $this->getUrl() . '/dist/' . $path;
+	}
+
+	/**
+	 * Get the public URL to a generated JS or CSS bundle.
+	 * Handles SCRIPT_DEBUG and hot reloading.
+	 *
+	 * @param string  $name Source basename (no extension).
+	 * @param string  $extension Source extension - '.js' or '.css'.
+	 * @return string
+	 */
+	public function getBundleUrl( $name, $extension ) {
+		$mode = 'production';
+		$url_path = '.css' === $extension ? "styles/{$name}" : $name;
+		$file_path = implode(
+			DIRECTORY_SEPARATOR,
+			array_filter(
+				[
+					$this->path,
+					'dist',
+					'.css' === $extension ? 'styles' : '',
+					"$name.min$extension",
+				]
+			)
+		);
+
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			$mode = 'debug';
+		} elseif ( ! file_exists( $file_path ) ) {
+			$mode = 'development';
+		}
+
+		if ( 'production' === $mode ) {
+			return "{$this->getUrl()}/dist/{$url_path}.min{$extension}";
+		}
+
+		if ( 'debug' === $mode ) {
+			return "{$this->getUrl()}/dist/{$url_path}{$extension}";
+		}
+
+		if ( '.css' === $extension ) {
+			// CSS files are injected via JS in development mode.
+			return '';
+		}
+
+		$hot_url = wp_parse_url( $this->config->get( 'development.hotUrl', 'http://localhost/' ) );
+		$hot_port = $this->config->get( 'development.port', 3000 );
+
+		return "${hot_url['scheme']}://{$hot_url['host']}:{$hot_port}/{$url_path}{$extension}";
 	}
 
 	/**

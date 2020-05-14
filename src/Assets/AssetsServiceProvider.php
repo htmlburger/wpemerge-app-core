@@ -27,7 +27,9 @@ class AssetsServiceProvider implements ServiceProviderInterface {
 
 		$container['wpemerge_app_core.assets.assets'] = function( $container ) {
 			return new Assets(
+				$container[ WPEMERGE_CONFIG_KEY ]['app_core']['path'],
 				$container[ WPEMERGE_CONFIG_KEY ]['app_core']['url'],
+				$container['wpemerge_app_core.config.config'],
 				$container['wpemerge_app_core.assets.manifest']
 			);
 		};
