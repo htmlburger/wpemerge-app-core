@@ -147,8 +147,8 @@ class Assets {
 	 * @return string
 	 */
 	public function getBundleUrl( $name, $extension ) {
-		$mode = 'production';
 		$url_path = '.css' === $extension ? "styles/{$name}" : $name;
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$file_path = implode(
 			DIRECTORY_SEPARATOR,
 			array_filter(
@@ -156,23 +156,13 @@ class Assets {
 					$this->path,
 					'dist',
 					'.css' === $extension ? 'styles' : '',
-					"$name.min$extension",
+					$name . $suffix . $extension,
 				]
 			)
 		);
 
-		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-			$mode = 'debug';
-		} elseif ( ! file_exists( $file_path ) ) {
-			$mode = 'development';
-		}
-
-		if ( 'production' === $mode ) {
-			return "{$this->getUrl()}/dist/{$url_path}.min{$extension}";
-		}
-
-		if ( 'debug' === $mode ) {
-			return "{$this->getUrl()}/dist/{$url_path}{$extension}";
+		if ( file_exists( $file_path ) ) {
+			return "{$this->getUrl()}/dist/{$url_path}{$suffix}{$extension}";
 		}
 
 		if ( '.css' === $extension ) {
