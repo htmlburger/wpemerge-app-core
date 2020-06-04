@@ -135,6 +135,14 @@ class Assets {
 			return '';
 		}
 
+		$url = wp_parse_url( $path );
+
+		if ( isset( $url['scheme'] ) ) {
+			// Path is an absolute URL.
+			return $path;
+		}
+
+		// Path is relative.
 		return $this->getUrl() . '/dist/' . $path;
 	}
 
@@ -163,11 +171,6 @@ class Assets {
 
 		if ( file_exists( $file_path ) ) {
 			return "{$this->getUrl()}/dist/{$url_path}{$suffix}{$extension}";
-		}
-
-		if ( '.css' === $extension ) {
-			// CSS files are injected via JS in development mode.
-			return '';
 		}
 
 		$hot_url = wp_parse_url( $this->config->get( 'development.hotUrl', 'http://localhost/' ) );
