@@ -43,18 +43,27 @@ class Assets {
 	protected $manifest = null;
 
 	/**
+	 * Filesystem.
+	 *
+	 * @var \WP_Filesystem_Base
+	 */
+	protected $filesystem = null;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param string   $path
-	 * @param string   $url
-	 * @param Config   $config
-	 * @param Manifest $manifest
+	 * @param string              $path
+	 * @param string              $url
+	 * @param Config              $config
+	 * @param Manifest            $manifest
+	 * @param \WP_Filesystem_Base $filesystem
 	 */
-	public function __construct( $path, $url, Config $config, Manifest $manifest ) {
+	public function __construct( $path, $url, Config $config, Manifest $manifest, \WP_Filesystem_Base $filesystem ) {
 		$this->path = MixedType::removeTrailingSlash( $path );
 		$this->url = Url::removeTrailingSlash( $url );
 		$this->config = $config;
 		$this->manifest = $manifest;
+		$this->filesystem = $filesystem;
 	}
 
 	/**
@@ -102,9 +111,9 @@ class Assets {
 				$src
 			) );
 
-			if ( file_exists( $file_path ) ) {
+			if ( $this->filesystem->exists( $file_path ) ) {
 				// Use the last modified time of the file as a version.
-				$version = filemtime( $file_path );
+				$version = $this->filesystem->mtime( $file_path );
 			}
 		}
 
@@ -169,7 +178,7 @@ class Assets {
 			)
 		);
 
-		if ( file_exists( $file_path ) ) {
+		if ( $this->filesystem->exists( $file_path ) ) {
 			return "{$this->getUrl()}/dist/{$url_path}{$suffix}{$extension}";
 		}
 

@@ -13,6 +13,22 @@ use WPEmerge\Helpers\MixedType;
 
 class Image {
 	/**
+	 * Filesystem.
+	 *
+	 * @var \WP_Filesystem_Base
+	 */
+	protected $filesystem = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param \WP_Filesystem_Base $filesystem
+	 */
+	public function __construct( \WP_Filesystem_Base $filesystem ) {
+		$this->filesystem = $filesystem;
+	}
+
+	/**
 	 * Get a suitable name for a resized version of an image file.
 	 *
 	 * @param  string  $filepath
@@ -45,7 +61,7 @@ class Image {
 	 * @return string
 	 */
 	protected function store( $source, $destination, $width, $height, $crop ) {
-		if ( file_exists( $destination ) ) {
+		if ( $this->filesystem->exists( $destination ) ) {
 			return $destination;
 		}
 
@@ -78,7 +94,7 @@ class Image {
 		$attachment = wp_get_attachment_metadata( $attachment_id );
 		$source = MixedType::normalizePath( get_attached_file( $attachment_id ) );
 
-		if ( ! $attachment || ! file_exists( $source ) ) {
+		if ( ! $attachment || ! $this->filesystem->exists( $source ) ) {
 			return '';
 		}
 

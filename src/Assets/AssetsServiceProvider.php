@@ -30,7 +30,8 @@ class AssetsServiceProvider implements ServiceProviderInterface {
 				$container[ WPEMERGE_CONFIG_KEY ]['app_core']['path'],
 				$container[ WPEMERGE_CONFIG_KEY ]['app_core']['url'],
 				$container['wpemerge_app_core.config.config'],
-				$container['wpemerge_app_core.assets.manifest']
+				$container['wpemerge_app_core.assets.manifest'],
+				$container[ WPEMERGE_APPLICATION_FILESYSTEM_KEY ]
 			);
 		};
 	}
