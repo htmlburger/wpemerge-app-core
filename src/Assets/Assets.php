@@ -213,6 +213,32 @@ class Assets {
 	public function enqueueScript( $handle, $src, $dependencies = [], $in_footer = false ) {
 		wp_enqueue_script( $handle, $src, $dependencies, $this->generateFileVersion( $src ), $in_footer );
 	}
+	
+	/**
+	 * Register a style, dynamically generating a version for it.
+	 *
+	 * @param  string        $handle
+	 * @param  string        $src
+	 * @param  array<string> $dependencies
+	 * @param  string        $media
+	 * @return void
+	 */
+	public function registerStyle( $handle, $src, $dependencies = [], $media = 'all' ) {
+		wp_register_style( $handle, $src, $dependencies, $this->generateFileVersion( $src ), $media );
+	}
+
+	/**
+	 * Register a script, dynamically generating a version for it.
+	 *
+	 * @param  string        $handle
+	 * @param  string        $src
+	 * @param  array<string> $dependencies
+	 * @param  boolean       $in_footer
+	 * @return void
+	 */
+	public function registerScript( $handle, $src, $dependencies = [], $in_footer = false ) {
+		wp_register_script( $handle, $src, $dependencies, $this->generateFileVersion( $src ), $in_footer );
+	}
 
 	/**
 	 * Add favicon meta.
